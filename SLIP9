@@ -1,0 +1,98 @@
+Q1]
+
+function validateForm() {
+    var username = document.getElementById("username").value;
+    var password = document.getElementById("password").value;
+    var confirmPassword = document.getElementById("confirmPassword").value;
+
+    // Validate username
+    if (username === "") {
+        alert("Please enter a username");
+        return false;
+    }
+
+    // Validate password
+    if (password === "") {
+        alert("Please enter a password");
+        return false;
+    }
+
+    // Validate password length
+    if (password.length < 8) {
+        alert("Password must be at least 8 characters long");
+        return false;
+    }
+
+    // Validate password confirmation
+    if (password !== confirmPassword) {
+        alert("Passwords do not match");
+        return false;
+    }
+
+    // Validation successful
+    alert("Form submitted successfully!");
+    return true;
+}
+
+
+Q2]
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Membership Form</title>
+</head>
+<body>
+    <h2>Membership Form</h2>
+    <form id="membershipForm" onsubmit="return validateForm()">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username"><br><br>
+        
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password"><br><br>
+        
+        <label for="confirmPassword">Confirm Password:</label>
+        <input type="password" id="confirmPassword" name="confirmPassword"><br><br>
+        
+        <input type="submit" value="Submit">
+    </form>
+
+    <script src="script.js"></script>
+</body>
+</html>
+function validateForm() {
+    var username = document.getElementById("username").value;
+    var password = document.getElementById("password").value;
+    var confirmPassword = document.getElementById("confirmPassword").value;
+
+    // Validate username
+    if (username === "") {
+        alert("Please enter a username");
+        return false;
+    }
+
+    // Validate password
+    if (password === "") {
+        alert("Please enter a password");
+        return false;
+    }
+
+    // Validate password length
+    if (password.length < 8) {
+        alert("Password must be at least 8 characters long");
+        return false;
+    }
+
+    // Validate password confirmation
+    if (password !== confirmPassword) {
+        alert("Passwords do not match");
+        return false;
+    }
+
+    // Validation successful
+    alert("Form submitted successfully!");
+    return true;
+}

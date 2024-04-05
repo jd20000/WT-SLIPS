@@ -1,0 +1,99 @@
+Q1]
+
+<?php
+session_start();
+
+// Define correct username and password
+$correct_username = "user123";
+$correct_password = "password123";
+
+// Initialize login attempt counter
+if (!isset($_SESSION['login_attempts'])) {
+    $_SESSION['login_attempts'] = 0;
+}
+
+// Check if form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    // Check if username and password are correct
+    if ($username === $correct_username && $password === $correct_password) {
+        // Redirect to welcome page
+        header("Location: welcome.php");
+        exit();
+    } else {
+        // Increment login attempt counter
+        $_SESSION['login_attempts']++;
+
+        // Display error message if login attempts exceed 3
+        if ($_SESSION['login_attempts'] >= 3) {
+            echo "<p>Maximum login attempts reached. Please try again later.</p>";
+            exit();
+        }
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+    <h2>Login</h2>
+    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username"><br><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password"><br><br>
+        <input type="submit" value="Login">
+    </form>
+    <p>Attempts remaining: <?php echo 3 - $_SESSION['login_attempts']; ?></p>
+</body>
+</html>
+
+
+Q2]
+
+import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.preprocessing import LabelEncoder
+
+# Creating synthetic dataset
+np.random.seed(0)
+n_samples = 1000
+gender = np.random.choice(['Male', 'Female'], size=n_samples)
+age = np.random.randint(18, 70, size=n_samples)
+estimated_salary = np.random.normal(loc=50000, scale=20000, size=n_samples)
+purchased = np.random.randint(0, 2, size=n_samples)  # 0 for not purchased, 1 for purchased
+
+data = pd.DataFrame({'User ID': range(1, n_samples + 1),
+                     'Gender': gender,
+                     'Age': age,
+                     'Estimated Salary': estimated_salary,
+                     'Purchased': purchased})
+
+# Encoding categorical variable 'Gender' using LabelEncoder
+label_encoder = LabelEncoder()
+data['Gender'] = label_encoder.fit_transform(data['Gender'])
+
+# Independent variables (X) and target variable (y)
+X = data[['Gender', 'Age', 'Estimated Salary']]
+y = data['Purchased']
+
+# Splitting the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Building a logistic regression model
+model = LogisticRegression()
+
+# Training the model
+model.fit(X_train, y_train)
+
+# Evaluating the model
+accuracy = model.score(X_test, y_test)
+print("Accuracy of logistic regression model:", accuracy)

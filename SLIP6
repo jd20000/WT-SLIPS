@@ -1,0 +1,61 @@
+Q1]
+
+<?php
+// Load the XML file into a SimpleXML object
+$xml = simplexml_load_file("book.xml");
+
+// Check if the XML file is loaded successfully
+if ($xml === false) {
+    die('Error loading XML file');
+}
+
+// Display attributes and elements
+echo "<h2>Attributes and Elements of the XML:</h2>";
+
+// Display attributes
+echo "<h3>Attributes:</h3>";
+foreach ($xml->attributes() as $key => $value) {
+    echo "<p>$key: $value</p>";
+}
+
+// Display elements
+echo "<h3>Elements:</h3>";
+foreach ($xml->children() as $child) {
+    echo "<p><strong>Element Name:</strong> $child->getName()</p>";
+    echo "<ul>";
+    foreach ($child->children() as $element) {
+        echo "<li><strong>$element->getName():</strong> $element</li>";
+    }
+    echo "</ul>";
+}
+?>
+
+Q2]
+
+from mlxtend.frequent_patterns import apriori, association_rules
+import pandas as pd
+
+# Step 1: Create dataset
+data = {
+    'Transaction': ['T1', 'T2', 'T3', 'T4', 'T5'],
+    'Item1': ['A', 'B', 'C', 'D', 'E'],
+    'Item2': ['B', 'C', 'D', 'E', 'F'],
+    'Item3': ['A', 'C', 'D', 'F', 'G'],
+    'Item4': ['A', 'B', 'D', 'F', 'G'],
+    'Item5': ['A', 'B', 'C', 'E', 'G']
+}
+
+df = pd.DataFrame(data)
+
+# Step 2: Convert categorical values into numeric format
+df_numeric = df.apply(lambda x: pd.factorize(x)[0] + 1)
+
+# Step 3: Apply the Apriori algorithm with different min_sup values
+min_sup_values = [0.2, 0.4, 0.6]  # Different minimum support values
+
+for min_sup in min_sup_values:
+    frequent_itemsets = apriori(df_numeric.drop(columns='Transaction'), min_support=min_sup, use_colnames=True)
+    print(f"\nFrequent itemsets with min_sup={min_sup}:\n", frequent_itemsets)
+
+    association_rules_df = association_rules(frequent_itemsets, metric="confidence", min_threshold=0.5)
+    print(f"\nAssociation rules with min_sup={min_sup}:\n", association_rules_df)

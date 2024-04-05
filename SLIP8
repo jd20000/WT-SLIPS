@@ -1,0 +1,44 @@
+Q1]
+
+// Display message using alert box
+alert('Exams are near, have you started preparing for?');
+
+// Accept two numbers from user using prompt box
+var num1 = prompt('Enter the first number:');
+var num2 = prompt('Enter the second number:');
+
+// Convert the input strings to numbers and calculate the addition
+num1 = parseFloat(num1);
+num2 = parseFloat(num2);
+var sum = num1 + num2;
+
+// Display the addition using confirm box
+confirm('The addition of ' + num1 + ' and ' + num2 + ' is ' + sum);
+
+
+Q2]
+
+import pandas as pd
+from mlxtend.frequent_patterns import apriori, association_rules
+
+# Step 1: Read the dataset and display its information
+groceries = pd.read_csv('groceries_dataset.csv')
+
+print("Dataset Information:")
+print(groceries.info())
+
+# Step 2: Preprocess the data (drop null values)
+groceries.dropna(inplace=True)
+
+# Step 3: Convert categorical values into numeric format
+# We'll use one-hot encoding for this purpose
+groceries_encoded = pd.get_dummies(groceries)
+
+# Step 4: Apply the Apriori algorithm
+frequent_itemsets = apriori(groceries_encoded, min_support=0.01, use_colnames=True)
+print("\nFrequent Itemsets:")
+print(frequent_itemsets)
+
+association_rules_df = association_rules(frequent_itemsets, metric="confidence", min_threshold=0.5)
+print("\nAssociation Rules:")
+print(association_rules_df)

@@ -1,0 +1,49 @@
+Q1]
+<?php
+// Start the session
+session_start();
+
+// Check if the session variable is already set
+if(isset($_SESSION['page_views'])) {
+    $_SESSION['page_views']++; // Increment the page view count
+} else {
+    $_SESSION['page_views'] = 1; // Initialize the page view count
+}
+
+// Display the page view count
+echo "You have visited this page ".$_SESSION['page_views']." time(s).";
+?>
+
+
+
+Q2]
+import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+
+# Creating the dataset
+data = {'Position': ['Manager', 'Team Leader', 'Project Manager', 'Senior Manager', 'Director'],
+        'Salary': [50000, 60000, 80000, 100000, 150000]}
+df = pd.DataFrame(data)
+
+# Independent variable (X) and Target variable (y)
+X = df[['Position']]
+y = df['Salary']
+
+# Splitting the dataset into training and testing sets with a 7:3 ratio
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+# Printing the training and testing sets
+print("Training Set:")
+print(X_train)
+print(y_train)
+print("\nTesting Set:")
+print(X_test)
+print(y_test)
+
+# Building a simple linear regression model
+model = LinearRegression()
+
+# Training the model
+model.fit(X_train, y_train)

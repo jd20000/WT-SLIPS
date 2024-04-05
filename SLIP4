@@ -1,0 +1,73 @@
+
+Q1]
+
+
+<?php
+session_start();
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $_SESSION['Eno'] = $_POST['Eno'];
+    $_SESSION['Ename'] = $_POST['Ename'];
+    $_SESSION['Address'] = $_POST['Address'];
+
+    header("Location: earnings.php");
+    exit();
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Details</title>
+</head>
+<body>
+    <h2>Enter Employee Details</h2>
+    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+        <label for="Eno">Employee Number:</label>
+        <input type="text" name="Eno"><br><br>
+        <label for="Ename">Employee Name:</label>
+        <input type="text" name="Ename"><br><br>
+        <label for="Address">Address:</label>
+        <input type="text" name="Address"><br><br>
+        <input type="submit" value="Next">
+    </form>
+</body>
+</html>
+
+Q2]
+
+import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
+
+# Generate synthetic dataset
+np.random.seed(0)
+n_samples = 1000
+length = np.random.uniform(5, 50, size=n_samples)  # Length in centimeters
+width = np.random.uniform(1, 20, size=n_samples)   # Width in centimeters
+weight = 2 * length + 3 * width + np.random.normal(loc=0, scale=5, size=n_samples)  # Weight in grams
+
+data = pd.DataFrame({'Length': length, 'Width': width, 'Weight': weight})
+
+# Independent variables (X) and target variable (y)
+X = data[['Length', 'Width']]
+y = data['Weight']
+
+# Splitting the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Building a simple linear regression model
+model = LinearRegression()
+
+# Training the model
+model.fit(X_train, y_train)
+
+# Predicting on the testing set
+y_pred = model.predict(X_test)
+
+# Evaluating the model
+mse = mean_squared_error(y_test, y_pred)
+print("Mean Squared Error:", mse)

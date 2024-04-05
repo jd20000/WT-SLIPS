@@ -1,0 +1,74 @@
+Q1]
+
+<Items>
+    <Item>
+        <Name>Apple</Name>
+        <Rate>2.50</Rate>
+        <Quantity>10</Quantity>
+    </Item>
+    <Item>
+        <Name>Orange</Name>
+        <Rate>1.80</Rate>
+        <Quantity>15</Quantity>
+    </Item>
+    <Item>
+        <Name>Banana</Name>
+        <Rate>1.20</Rate>
+        <Quantity>20</Quantity>
+    </Item>
+    <Item>
+        <Name>Mango</Name>
+        <Rate>3.00</Rate>
+        <Quantity>8</Quantity>
+    </Item>
+    <Item>
+        <Name>Grapes</Name>
+        <Rate>2.80</Rate>
+        <Quantity>12</Quantity>
+    </Item>
+</Items>
+
+
+Q2]
+
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, classification_report
+import pandas as pd
+
+# Load the Iris dataset
+iris = load_iris()
+X = iris.data
+y = iris.target
+
+# Convert to DataFrame for easier data manipulation
+iris_df = pd.DataFrame(X, columns=iris.feature_names)
+iris_df['Species'] = y
+iris_df['Species'] = iris_df['Species'].map({0: 'Iris-setosa', 1: 'Iris-versicolor', 2: 'Iris-virginica'})
+
+# Display basic statistical details
+for species in ['Iris-setosa', 'Iris-versicolor', 'Iris-virginica']:
+    print("\nSpecies:", species)
+    species_data = iris_df[iris_df['Species'] == species].drop(columns=['Species'])
+    print("Statistical details:")
+    print(species_data.describe())
+
+# Split the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Apply logistic regression
+logistic_model = LogisticRegression(max_iter=1000)
+logistic_model.fit(X_train, y_train)
+
+# Predict on the testing set
+y_pred = logistic_model.predict(X_test)
+
+# Calculate accuracy
+accuracy = accuracy_score(y_test, y_pred)
+print("\nAccuracy of the logistic regression model:", accuracy)
+
+# Display classification report
+print("\nClassification Report:")
+print(classification_report(y_test, y_pred, target_names=iris.target_names))
+
